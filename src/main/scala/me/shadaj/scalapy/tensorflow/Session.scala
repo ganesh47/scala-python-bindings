@@ -1,9 +1,8 @@
 package me.shadaj.scalapy.tensorflow
 
 import jep.Jep
-import me.shadaj.scalapy.numpy._
-import me.shadaj.scalapy.py
-import me.shadaj.scalapy.py.ObjectFascade
+import numpy.NDArray
+import py.ObjectFascade
 
 class Session(o: py.Object)(implicit jep: Jep) extends ObjectFascade(o) {
   def run(fetches: Operation): Unit = native

@@ -1,17 +1,17 @@
 package me.shadaj.scalapy.tensorflow
 
 import jep.Jep
-import me.shadaj.scalapy.py
-import me.shadaj.scalapy.py.{ObjectFascade, PyFunction, |}
+import py.{ObjectFascade, PyFunction, |}
+import py.py.NoneOr
 
 class TensorFlow(o: py.Object)(implicit jep: Jep) extends ObjectFascade(o) {
   def Variable(initialValue: Tensor): Variable = native
 
-  def random_uniform(shape: Seq[py.NoneOr[Int]], min: Double, max: Double): Tensor = native
+  def random_uniform(shape: Seq[NoneOr[Int]], min: Double, max: Double): Tensor = native
 
   def placeholder(`type`: String): Tensor = native
 
-  def placeholder(`type`: String, shape: Seq[py.NoneOr[Int]]): Tensor = native
+  def placeholder(`type`: String, shape: Seq[NoneOr[Int]]): Tensor = native
 
   def nn: NeuralNetwork = native
   def train: Training = native

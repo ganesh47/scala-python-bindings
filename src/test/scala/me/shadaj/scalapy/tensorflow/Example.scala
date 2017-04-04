@@ -1,8 +1,10 @@
 package me.shadaj.scalapy.tensorflow
 
-import me.shadaj.scalapy.py
+import py._
 import jep.Jep
-import me.shadaj.scalapy.numpy.NumPy
+import numpy.NumPy
+
+
 
 object Example extends App {
   implicit val jep = new Jep()
@@ -11,9 +13,9 @@ object Example extends App {
   val sys = py.module("sys")
   sys.argv = Array("jep")
   sys.path.insert(0, "./src/main/python")
-
-  val tf = py.module("tensorflow").as[TensorFlow]
   val np = py.module("numpy").as[NumPy]
+  val tf = py.module("tensorflow").as[TensorFlow]
+
 
   val xData = np.random.rand(100).astype(np.float32)
   val yData = (xData * 0.1) + 0.3

@@ -1,9 +1,8 @@
 package me.shadaj.scalapy.tensorflow
 
 import jep.Jep
-import me.shadaj.scalapy.py
-import me.shadaj.scalapy.py.ObjectFascade
+import py._
 
-class Contrib(o: py.Object)(implicit jep: Jep) extends ObjectFascade(o) {
+class Contrib(o: Object)(implicit jep: Jep) extends ObjectFascade(o) {
   def layers: Layers = native
 }
