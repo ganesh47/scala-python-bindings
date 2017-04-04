@@ -1,4 +1,4 @@
-package me.shadaj.scalapy.tensorflow
+package scalapy.tensorflow
 
 import jep.Jep
 import py.{ObjectFascade, PyFunction}

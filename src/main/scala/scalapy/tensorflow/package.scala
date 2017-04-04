@@ -1,4 +1,4 @@
-package me.shadaj.scalapy
+package scalapy
 
 import jep.Jep
 

@@ -2,7 +2,6 @@ package py
 
 import jep.Jep
 
-
 import scala.reflect.macros.Context
 import scala.language.experimental.macros
 
@@ -18,6 +17,7 @@ class ObjectFascade(originalObject: Object)(implicit jep: Jep) extends Ref(origi
 object ObjectFascade {
   def native_impl[T: c.WeakTypeTag](c: Context): c.Expr[T] = {
     import c.universe._
+
     val method = c.internal.enclosingOwner.asMethod
     val methodName = method.name.toString
     val returnType = method.returnType
@@ -38,6 +38,7 @@ object ObjectFascade {
 
   def native_named_impl[T: c.WeakTypeTag](c: Context): c.Expr[T] = {
     import c.universe._
+
     val method = c.internal.enclosingOwner.asMethod
     val methodName = method.name.toString
     val returnType = method.returnType
