@@ -36,6 +36,7 @@ object ObjectReader extends ObjectTupleReaders {
       case i: Int => i
       case i: java.lang.Long => i.toInt
       case i: Long => i.toInt
+      case i: String => i.toInt
       case _: Double =>
         throw new IllegalArgumentException("Cannot up-convert a Double to an Int")
       case _: Float =>
@@ -108,4 +109,9 @@ object ObjectReader extends ObjectTupleReaders {
   implicit def seqReader[T](implicit reader: ObjectReader[T]): ObjectReader[Seq[T]] = new ObjectReader[Seq[T]] {
     def read(r: Ref)(implicit jep: Jep) = new NativeSeq[T](r)(reader, jep)
   }
+
+  implicit def mapReader[K, T](implicit reader: ObjectReader[K], reader2: ObjectReader[T]): ObjectReader[Map[K, T]] = new ObjectReader[Map[K, T]] {
+    def read(r: Ref)(implicit jep: Jep) = new NativeMap[K, T](r)(reader,reader2, jep)
+  }
+
 }

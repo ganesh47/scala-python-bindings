@@ -22,6 +22,7 @@ object Example  {
     val tf = py.module("tensorflow").as[TensorFlow]
 
 
+
     val xData = np.random.rand(100).astype(np.float32)
     val yData = (xData * 0.1) + 0.3
 

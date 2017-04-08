@@ -20,6 +20,9 @@ class DynamicObject private[py](varId: Int)(implicit jep: Jep) extends Object(va
   def arrayAccess(key: Ref): DynamicObject = {
     Object(s"$expr[${key.expr}]").asInstanceOf[DynamicObject]
   }
+  def keysAccess(key: Ref): DynamicObject = {
+    Object(s"$expr.keys()[${key.expr}]").asInstanceOf[DynamicObject]
+  }
 
   def unary_+(): DynamicObject = {
     Object(s"+$expr").asInstanceOf[DynamicObject]

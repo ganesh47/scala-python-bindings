@@ -17,6 +17,7 @@ class NumPy(o: Object)(implicit jep: Jep) extends ObjectFascade(o) {
   }
 
   def random: NumPyRandom = dynamic.random.as[NumPyRandom]
+  def nan: Object = dynamic.nan.as[Object]
 
   def float32: NumPyType = dynamic.float32.as[NumPyType]
 

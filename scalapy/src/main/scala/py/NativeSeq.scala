@@ -9,6 +9,8 @@ class NativeSeq[T] (private[py] val orig: Ref)(implicit reader: ObjectReader[T],
 
   protected lazy val memo: Array[Any] = new Array[Any](length)
 
+  def applicator(idx:Int)=origDynamic.arrayAccess(idx).as[T]
+
   override def apply(idx: Int): T = {
     if (memo(idx) == null) {
       memo(idx) = origDynamic.arrayAccess(idx).as[T]
