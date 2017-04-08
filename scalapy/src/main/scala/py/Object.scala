@@ -16,11 +16,17 @@ class Object private[py](val varId: Int)(implicit jep: Jep) extends Ref(s"spy_o_
 
   def asRef: Ref = Ref(expr)
 
+  def atIndex(inx:Int)(implicit jep: Jep)={
+    val toBeEvaledExpr = s"str($expr[$inx])"
+    println(toBeEvaledExpr)
+    jep.getValue(toBeEvaledExpr)
+  }
   override def toObject(implicit jep: Jep): Object = this
 
   override def toString: String = {
     jep.getValue(s"str($expr)").asInstanceOf[String]
   }
+
 
   override def finalize(): Unit = {
     if (!cleaned) {

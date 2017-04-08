@@ -3,4 +3,5 @@ Static facades for using TensorFlow in ScalaPy. See Example.scala under the src/
 
 ## Todo
 
-[ ] Add scala-test tests for the DSLs
+[X] Add scala-test tests for the DSLs
+[ ] Add scikit and pandas facade
