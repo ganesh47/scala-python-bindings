@@ -2,6 +2,8 @@ import jep.Jep
 import org.scalatest.{FlatSpec, Matchers}
 import py.py
 
+import scalapy.pandas.Series.{A_Ravel_Order, F_Ravel_Order, K_Ravel_Order, higher, lower, midpoint, nearest}
+
 /**
   * Created by Ganesh on 4/8/2017.
   */
@@ -28,6 +30,10 @@ class PandasSeriesFacadeTest extends FlatSpec with Matchers{
     assert(series.get_values.toString().equals("NDArray(1, 2, 3)"))
     assert(series.values.toString().equals("NDArray(1, 2, 3)"))
     assert(series.ravel().toString().equals("NDArray(1, 2, 3)"))
+    assert(series.ravel(F_Ravel_Order).toString().equals("NDArray(1, 2, 3)"))
+    assert(series.ravel(A_Ravel_Order).toString().equals("NDArray(1, 2, 3)"))
+    assert(series.ravel(K_Ravel_Order).toString().equals("NDArray(1, 2, 3)"))
+    assert(series.ravel().toString().equals("NDArray(1, 2, 3)"))
     assert((2 to 3).map{x => series.compress(List(1, 2)).tolist().contains(x)}.forall(identity))
     assert(series.nonzero().toString().equals("NativeSeq([0 1 2])"))
     assert(series.len().toString.equals("3"))
@@ -37,11 +43,15 @@ class PandasSeriesFacadeTest extends FlatSpec with Matchers{
     assert(series.keys().containsSlice(Seq(0,1,2)))
     assert(series.to_dict().forall(x=> source.contains(Integer.parseInt(x._1.toString))))
     assert(series.count() == 3)
-    println(series.mode())
-    println(series.idxmin())
-    println(series.idxmax())
-    println(series.round())
-    println(series.quantile())
+    assert(series.mode().count()==0)
+    assert(series.idxmin().equals(0))
+    assert(series.idxmax().equals(2))
+    assert(series.round().tolist().containsSlice(Seq(1,2,3)))
+    assert(series.quantile().toString().contains("2.0"))
+    assert(series.quantile(interpolation = higher).toString().contains("2"))
+    assert(series.quantile(interpolation = midpoint).toString().contains("2.0"))
+    assert(series.quantile(interpolation = nearest).toString().contains("2"))
+    assert(series.quantile(interpolation = lower).toString().contains("2"))
 
   }
 }
