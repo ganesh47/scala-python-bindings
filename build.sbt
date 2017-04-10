@@ -47,6 +47,7 @@ update <<= update map {
     println((commandLinePython +" --version").!)
     val expandedCommandLine = commandLinePython + " -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\""
     println(expandedCommandLine)
+    println(expandedCommandLine.!)
     lazy val otp = expandedCommandLine.!!
     lazy val path = otp.trim().replace('\\','/').replaceAll("\n", "")+"/jep"
     lazy val jepJar = IO.listFiles(new File(path)).map { x => println(x.name); x }.filter(_.name.endsWith("jar"))
