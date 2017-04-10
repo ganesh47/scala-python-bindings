@@ -25,6 +25,9 @@ lazy val numpy = project in file("scala-numpy") dependsOn scalapy settings(scala
 
 lazy val root = project in file(".") dependsOn(numpy, scalapy) settings(scalaVersion := "2.12.1", libraryDependencies += scalaReflect.value)
 
+lazy val requirements = Seq("jep", "tensorflow", "pandas")
+
+lazy val commandLinePython = "python"
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
@@ -35,3 +38,19 @@ fork in run in Test := true
 javaOptions in run in Test += "-Djava.library.path=./lib/"
 javaOptions in runMain += "-Djava.library.path=./lib/"
 
+update <<= update map {
+  report =>
+    import sys.process._
+    requirements.foreach {
+      req=>("pip3 install " + req).!
+    }
+    lazy val otp = (commandLinePython + " -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib().replace('\\\\', '/')+'/jep')\"").!!
+    lazy val path = otp.trim().replaceAll("\n", "")
+    lazy val jepJar = IO.listFiles(new File(path)).map { x => println(x.name); x }.filter(_.name.endsWith("jar"))
+    lazy val jepLib = new File(project.base, "jep_" + os ++ "_" + arch + "/lib/")
+    jepLib.mkdirs()
+    IO.copy(Seq((jepJar.head, jepLib)))
+    lazy val endNameForSlib = if (os.startsWith("win")) "dll" else "so"
+    IO.copy(Seq((IO.listFiles(new File(path)).filter(_.name.endsWith(endNameForSlib)).head, jepLib)))
+    report
+}
