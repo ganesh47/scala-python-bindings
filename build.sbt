@@ -27,7 +27,7 @@ lazy val root = project in file(".") dependsOn(numpy, scalapy) settings(scalaVer
 
 lazy val requirements = Seq("jep", "tensorflow", "pandas")
 
-lazy val commandLinePython = "python"
+lazy val commandLinePython = if(os.startsWith("win")) "python" else "python3"
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
