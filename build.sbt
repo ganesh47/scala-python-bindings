@@ -45,10 +45,12 @@ update <<= update map {
       req=>("pip3 install " + req).!
     }
     println((commandLinePython +" --version").!)
-    val expandedCommandLine = commandLinePython + " -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\""
-    println(expandedCommandLine)
-    println(expandedCommandLine.!)
-    lazy val otp = expandedCommandLine.!!
+    val pyCode = "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+
+    lazy val otp = IO.withTemporaryFile("pyCode","py"){file=>
+      IO.write(file,pyCode.getBytes)
+      (commandLinePython + " "+file.getAbsolutePath) !!
+    }
     lazy val path = otp.trim().replace('\\','/').replaceAll("\n", "")+"/jep"
     lazy val jepJar = IO.listFiles(new File(path)).map { x => println(x.name); x }.filter(_.name.endsWith("jar"))
     lazy val jepLib = new File(project.base, "jep_" + os ++ "_" + arch + "/lib/")
