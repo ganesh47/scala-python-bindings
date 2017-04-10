@@ -58,5 +58,7 @@ update <<= update map {
     IO.copy(Seq((jepJar.head, jepLib)))
     lazy val endNameForSlib = if (os.startsWith("win")) "dll" else "so"
     IO.copy(Seq((IO.listFiles(new File(path)).filter(_.name.endsWith(endNameForSlib)).head, jepLib)))
+    jepLib.listFiles().foreach(x=>println(x.absolutePath))
+
     report
 }
