@@ -14,3 +14,5 @@ Examples are in tests src/tests/scala/
 [ ] Add scikit and
 
 [ WIP ] Add pandas facade
+
+[![Build Status](https://travis-ci.org/ganesh47/scalapy-tensorflow.svg?branch=master)](https://travis-ci.org/ganesh47/scalapy-tensorflow)
