@@ -44,6 +44,7 @@ update <<= update map {
     requirements.foreach {
       req=>("pip3 install " + req).!
     }
+    println((commandLinePython +" --version").!)
     lazy val otp = (commandLinePython + " -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib().replace('\\\\', '/')+'/jep')\"").!!
     lazy val path = otp.trim().replaceAll("\n", "")
     lazy val jepJar = IO.listFiles(new File(path)).map { x => println(x.name); x }.filter(_.name.endsWith("jar"))
