@@ -9,7 +9,7 @@ cache:
 language: scala
 
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION compile test:compile
+  - LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpython3.4m.so sbt ++$TRAVIS_SCALA_VERSION test
 
 
   # Trick to avoid unnecessary cache updates
