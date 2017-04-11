@@ -71,6 +71,7 @@ update <<= update map {
 
       lazy val result = IO.withTemporaryFile("pyCode2", "py") { file =>
         IO.write(file, code.getBytes)
+        println(((commandLinePython + " " + file.getAbsolutePath) !!))
         (commandLinePython + " " + file.getAbsolutePath) !
       }
       if (result > 0) throw new Exception(" Error running code " + code)
