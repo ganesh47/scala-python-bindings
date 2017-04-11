@@ -60,12 +60,12 @@ update <<= update map {
       }
       lazy val path = otp.trim().replace('\\', '/').replaceAll("\n", "").replaceAll(".pandas.__init__.py","") + "/jep"
       s"mkdir $jep_deps".replace('/', '\\').!
-      s"mkdir $jep_deps/lib".replace('/', '\\').!
+      s"mkdir $jep_deps\\lib".replace('/', '\\').!
 
       val code =
         s"""
            |import shutil, glob
-           |dest_dir = r"$jep_deps/lib"
+           |dest_dir = r"$jep_deps/lib/"
            |for f in glob.glob('$path/jep*.jar'):
            |	shutil.copy(f, dest_dir)
            |for f in glob.glob('$path/jep.$sharedObject'):
