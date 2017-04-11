@@ -59,14 +59,13 @@ update <<= update map {
         (commandLinePython + " " + file.getAbsolutePath) !!
       }
       lazy val path = otp.trim().replace('\\', '/').replaceAll("\n", "").replaceAll(".pandas.__init__.py","") + "/jep"
-      val basePath = new File(".").getAbsolutePath
-      s"mkdir ${basePath}/$jep_deps".replace('/', '\\').!
-      s"mkdir ${basePath}/$jep_deps/lib".replace('/', '\\').!
+      s"mkdir $jep_deps".replace('/', '\\').!
+      s"mkdir $jep_deps/lib".replace('/', '\\').!
 
       val code =
         s"""
            |import shutil, glob
-           |dest_dir = r"${basePath}/$jep_deps/lib"
+           |dest_dir = r"$jep_deps/lib"
            |for f in glob.glob('$path/jep*.jar'):
            |	shutil.copy(f, dest_dir)
            |for f in glob.glob('$path/jep.$sharedObject'):
