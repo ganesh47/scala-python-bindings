@@ -44,8 +44,6 @@ class TensorFlowFirstTest extends FlatSpec with Matchers {
         println(s"$step ${sess.run(W).head} ${sess.run(b).head}")
       }
     }
-
-    jepa.close()
   }
 
 
