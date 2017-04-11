@@ -29,7 +29,7 @@ lazy val numpy = project in file("scala-numpy") dependsOn scalapy settings(scala
 
 lazy val root = project in file(".") dependsOn(numpy, scalapy) settings(scalaVersion := "2.12.1", libraryDependencies += scalaReflect.value)
 
-lazy val requirements = Seq("jep", "tensorflow", "pandas")
+lazy val requirements = Seq("numpy","jep", "tensorflow", "pandas")
 
 lazy val commandLinePython = if (os.startsWith("win")) "python" else "python3"
 
