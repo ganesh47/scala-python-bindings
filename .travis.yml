@@ -11,10 +11,11 @@ language: scala
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y python3-pip
+  - sudo apt-get install -y python3-numpy
+  - sudo apt-get install -y python3-pandas
 
 script:
-  - apt-get install
-  - LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpython3.4m.so sbt ++$TRAVIS_SCALA_VERSION test
+  - sudo LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpython3.4m.so sbt ++$TRAVIS_SCALA_VERSION test
 
 
   # Trick to avoid unnecessary cache updates
