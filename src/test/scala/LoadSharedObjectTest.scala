@@ -8,7 +8,7 @@ import org.scalatest.{FlatSpec, Matchers}
 class LoadSharedObjectTest extends FlatSpec with Matchers {
 
   "Load shared object check for jvm" should "work otherwise something is wrong in setup" in {0
-    val paths = System.getProperty("java.library.path").replace('[', ' ').replace(']', ' ').split("(,|;)", -1)
+    val paths = System.getProperty("java.library.path").replace('[', ' ').replace(']', ' ').split("(,|;|:)", -1)
     assert(paths.map(x => x.replace('\'', ' ')).exists {
       x =>
         val file = new File(x)
