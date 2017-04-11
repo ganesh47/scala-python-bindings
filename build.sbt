@@ -40,7 +40,7 @@ fork in run in Test := true
 javaOptions in run in Test += "-Djava.library.path=./lib/"
 javaOptions in runMain += "-Djava.library.path=./lib/"
 
-update <<= update map {
+state <<= state map {
   report =>
     import sys.process._
     requirements.foreach {
