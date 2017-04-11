@@ -37,7 +37,7 @@ libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 
 concurrentRestrictions in Global += Tags.limit(Tags.Test, 1)
-
+parallelExecution in ThisBuild := false
 update <<= update map {
   report =>
     val sharedObject = if (os.startsWith("win")) "jep.dll" else "libjep.so"
