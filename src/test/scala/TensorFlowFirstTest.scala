@@ -14,8 +14,7 @@ class TensorFlowFirstTest extends FlatSpec with Matchers {
 
 
   "201 step Linear Regression" should " optimially run with tensors  " in {
-    setup
-    implicit val jepa = new Jep()
+    implicit val jep:Jep=setup
     // prep for tensorflow
     val sys = py.module("sys")
     sys.argv = Array("jep")
