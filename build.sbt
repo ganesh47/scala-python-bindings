@@ -55,7 +55,7 @@ update <<= update map {
         IO.write(file, pyCode.getBytes)
         (commandLinePython + " " + file.getAbsolutePath) !!
       }
-      lazy val path = otp.trim().replace('\\', '/').replaceAll("\n", "").replaceAll(".pandas.__init__.py","") + "/jep"
+      lazy val path = otp.trim().replace('\\', '/').replaceAll("\n", "").replaceAll(".tensorflow.__init__.py.","") + "/jep"
       val code =
         s"""
            |import shutil, glob
