@@ -17,7 +17,6 @@ class PandasSeriesFacadeTest extends FlatSpec with Matchers {
     sys.argv = Array("jep")
     sys.path.insert(0, "./src/main/python")
     val pd = py.module("pandas")
-    val np = py.module("numpy")
     val numbers = List(1, 2, 3)
     val source = Map(0 -> 1, 1 -> 2, 2 -> 3)
     val series = pd.Series(numbers).as[scalapy.pandas.Series[Int]]
@@ -49,6 +48,5 @@ class PandasSeriesFacadeTest extends FlatSpec with Matchers {
     assert(series.quantile(interpolation = nearest).toString().contains("2"))
     assert(series.quantile(interpolation = lower).toString().contains("2"))
 
-    jep.close()
   }
 }
