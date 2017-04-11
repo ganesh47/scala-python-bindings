@@ -44,7 +44,7 @@ javaOptions in runMain += "-Djava.library.path=./lib/"
 
 update <<= update map {
   report =>
-    val sharedObject = if (os.startsWith("win")) "dll" else "so"
+    val sharedObject = if (os.startsWith("win")) "jep.dll" else "libjep.so"
 
     if (!new File(s"./$jep_deps/lib/jep.$sharedObject").exists()) {
       import sys.process._
@@ -65,7 +65,7 @@ update <<= update map {
            |dest_dir = r"$jep_deps/lib/"
            |for f in glob.glob('$path/jep*.jar'):
            |	shutil.copy(f, dest_dir)
-           |for f in glob.glob('$path/jep.$sharedObject'):
+           |for f in glob.glob('$path/$sharedObject'):
            |	shutil.copy(f, dest_dir)
     """.stripMargin
 
@@ -73,7 +73,7 @@ update <<= update map {
         IO.write(file, code.getBytes)
         println(code)
         println(file.getAbsolutePath)
-        println(((commandLinePython + " " + file.getAbsolutePath) !!))
+        println((commandLinePython + " " + file.getAbsolutePath) !!)
         (commandLinePython + " " + file.getAbsolutePath) !
       }
       if (result > 0) throw new Exception(" Error running code " + code)
