@@ -8,6 +8,11 @@ import org.scalatest.{FlatSpec, Matchers}
 class LoadSharedObjectTest extends FlatSpec with Matchers {
 
   "Load shared object check for jvm" should "work otherwise something is wrong in setup" in {
+    unsafe.Utils.unsafeAddDir(new File("jep_deps/lib/").getAbsolutePath)
+    val os = System.getProperty("os.name").split(" ")(0).toLowerCase
+    System.load(new File("jep_deps/lib/").getAbsolutePath + (if(os.startsWith("win")) "/jep.dll" else "/libjep.so"))
+
+
     val paths = System.getProperty("java.library.path").replace('[', ' ').replace(']', ' ').split("(,|;|:)", -1)
     assert(paths.map(x => x.replace('\'', ' ')).exists {
       x =>
