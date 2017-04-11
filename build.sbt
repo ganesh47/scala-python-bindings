@@ -49,7 +49,7 @@ update <<= update map {
         req => ("pip3 install " + req).!
       }
       println((commandLinePython + " --version").!)
-      val pyCode = "import os,tensorflow ; print(os.path.abspath(pandas.__file__))"
+      val pyCode = "import os,tensorflow ; print(os.path.abspath(tensorflow.__file__))"
 
       lazy val otp = IO.withTemporaryFile("pyCode", "py") { file =>
         IO.write(file, pyCode.getBytes)
