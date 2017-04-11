@@ -19,7 +19,9 @@ lazy val arch = if (System.getProperty("os.arch").equals("amd64")) "x64" else "x
 
 lazy val os = System.getProperty("os.name").split(" ")(0).toLowerCase
 
-lazy val jep = project in file("jep_" + os + "_" + arch) settings(scalaVersion := "2.12.1", libraryDependencies += scalaReflect.value)
+lazy val jep_deps = "jep_deps"
+
+lazy val jep = project in file(jep_deps) settings(scalaVersion := "2.12.1", libraryDependencies += scalaReflect.value)
 
 lazy val scalapy = project in file("scalapy") dependsOn jep settings(scalaVersion := "2.12.1", libraryDependencies += scalaReflect.value)
 
@@ -40,40 +42,42 @@ fork in run in Test := true
 javaOptions in run in Test += "-Djava.library.path=./lib/"
 javaOptions in runMain += "-Djava.library.path=./lib/"
 
-state <<= state map {
+update <<= update map {
   report =>
-    import sys.process._
-    requirements.foreach {
-      req => ("pip3 install " + req).!
-    }
-    println((commandLinePython + " --version").!)
-    val pyCode = "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
-
-    lazy val otp = IO.withTemporaryFile("pyCode", "py") { file =>
-      IO.write(file, pyCode.getBytes)
-      (commandLinePython + " " + file.getAbsolutePath) !!
-    }
-    lazy val path = otp.trim().replace('\\', '/').replaceAll("\n", "") + "/jep"
-    val basePath = new File(".").getAbsolutePath
-    s"mkdir ${basePath}/jep_${os}_${arch}".replace('/', '\\').!
-    s"mkdir ${basePath}/jep_${os}_${arch}/lib".replace('/', '\\').!
-
     val sharedObject = if (os.startsWith("win")) "dll" else "so"
 
-    val code =
-      s"""
-         |import shutil, glob
-         |dest_dir = r"${basePath}/jep_${os}_${arch}/lib"
-         |for f in glob.glob('$path/jep*.jar'):
-         |	shutil.copy(f, dest_dir)
-         |for f in glob.glob('$path/jep.$sharedObject'):
-         |	shutil.copy(f, dest_dir)
+    if (!new File(s"./$jep_deps/lib/jep.$sharedObject").exists()) {
+      import sys.process._
+      requirements.foreach {
+        req => ("pip3 install " + req).!
+      }
+      println((commandLinePython + " --version").!)
+      val pyCode = "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+
+      lazy val otp = IO.withTemporaryFile("pyCode", "py") { file =>
+        IO.write(file, pyCode.getBytes)
+        (commandLinePython + " " + file.getAbsolutePath) !!
+      }
+      lazy val path = otp.trim().replace('\\', '/').replaceAll("\n", "") + "/jep"
+      val basePath = new File(".").getAbsolutePath
+      s"mkdir ${basePath}/$jep_deps".replace('/', '\\').!
+      s"mkdir ${basePath}/$jep_deps/lib".replace('/', '\\').!
+
+      val code =
+        s"""
+           |import shutil, glob
+           |dest_dir = r"${basePath}/$jep_deps/lib"
+           |for f in glob.glob('$path/jep*.jar'):
+           |	shutil.copy(f, dest_dir)
+           |for f in glob.glob('$path/jep.$sharedObject'):
+           |	shutil.copy(f, dest_dir)
     """.stripMargin
 
-    lazy val result = IO.withTemporaryFile("pyCode2", "py") { file =>
-      IO.write(file, code.getBytes)
-      (commandLinePython + " " + file.getAbsolutePath) !
+      lazy val result = IO.withTemporaryFile("pyCode2", "py") { file =>
+        IO.write(file, code.getBytes)
+        (commandLinePython + " " + file.getAbsolutePath) !
+      }
+      if (result > 0) throw new Exception(" Error running code " + code)
     }
-    if(result>0) throw new Exception(" Error running code "+code)
     report
 }
