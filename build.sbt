@@ -36,8 +36,7 @@ lazy val commandLinePython = if (os.startsWith("win")) "python" else "python3"
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 
-fork in runMain := true
-fork in run in Test := true
+fork := true
 
 javaOptions in run in Test += "-Djava.library.path=./jep_deps/lib/"
 javaOptions in test in Test += "-Djava.library.path=./jep_deps/lib/"
