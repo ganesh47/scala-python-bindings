@@ -46,7 +46,7 @@ update <<= update map {
   report =>
     val sharedObject = if (os.startsWith("win")) "jep.dll" else "libjep.so"
 
-    if (!new File(s"./$jep_deps/lib/jep.$sharedObject").exists()) {
+    if (!new File(s"./$jep_deps/lib/$sharedObject").exists()) {
       import sys.process._
       requirements.foreach {
         req => ("pip3 install " + req).!
