@@ -12,7 +12,10 @@ import scalapy.pandas.Series.{A_Ravel_Order, F_Ravel_Order, K_Ravel_Order, highe
 class PandasSeriesFacadeTest extends FlatSpec with Matchers{
 
   "Test Series Facade" should "Type Check And Execute" in{
-    unsafe.Utils.unsafeAddDir(new File("./jep_deps/lib/").getAbsolutePath)
+    unsafe.Utils.unsafeAddDir(new File("jep_deps/lib/").getAbsolutePath)
+    val os = System.getProperty("os.name").split(" ")(0).toLowerCase
+    System.load(new File("jep_deps/lib/").getAbsolutePath + (if(os.startsWith("win")) "/jep.dll" else "/libjep.so"))
+
 
     import py._
     import scalapy.pandas.Series.seqReader
