@@ -1,3 +1,5 @@
+import java.nio.file.Files
+
 import sbt.Keys.javaOptions
 
 organization := "me.shadaj"
@@ -27,7 +29,7 @@ lazy val root = project in file(".") dependsOn(numpy, scalapy) settings(scalaVer
 
 lazy val requirements = Seq("jep", "tensorflow", "pandas")
 
-lazy val commandLinePython = if(os.startsWith("win")) "python" else "python3"
+lazy val commandLinePython = if (os.startsWith("win")) "python" else "python3"
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
@@ -42,23 +44,36 @@ update <<= update map {
   report =>
     import sys.process._
     requirements.foreach {
-      req=>("pip3 install " + req).!
+      req => ("pip3 install " + req).!
     }
-    println((commandLinePython +" --version").!)
+    println((commandLinePython + " --version").!)
     val pyCode = "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
 
-    lazy val otp = IO.withTemporaryFile("pyCode","py"){file=>
-      IO.write(file,pyCode.getBytes)
-      (commandLinePython + " "+file.getAbsolutePath) !!
+    lazy val otp = IO.withTemporaryFile("pyCode", "py") { file =>
+      IO.write(file, pyCode.getBytes)
+      (commandLinePython + " " + file.getAbsolutePath) !!
     }
-    lazy val path = otp.trim().replace('\\','/').replaceAll("\n", "")+"/jep"
-    lazy val jepJar = IO.listFiles(new File(path)).map { x => println(x.name); x }.filter(_.name.endsWith("jar"))
-    lazy val jepLib = new File(project.base, "jep_" + os ++ "_" + arch + "/lib/")
-    jepLib.mkdirs()
-    IO.copy(Seq((jepJar.head, jepLib)))
-    lazy val endNameForSlib = if (os.startsWith("win")) "dll" else "so"
-    IO.copy(Seq((IO.listFiles(new File(path)).filter(_.name.endsWith(endNameForSlib)).head, jepLib)))
-    jepLib.listFiles().foreach(x=>println(x.absolutePath))
+    lazy val path = otp.trim().replace('\\', '/').replaceAll("\n", "") + "/jep"
+    val basePath = new File(".").getAbsolutePath
+    s"mkdir ${basePath}/jep_${os}_${arch}".replace('/', '\\').!
+    s"mkdir ${basePath}/jep_${os}_${arch}/lib".replace('/', '\\').!
 
+    val sharedObject = if (os.startsWith("win")) "dll" else "so"
+
+    val code =
+      s"""
+         |import shutil, glob
+         |dest_dir = r"${basePath}/jep_${os}_${arch}/lib"
+         |for f in glob.glob('$path/jep*.jar'):
+         |	shutil.copy(f, dest_dir)
+         |for f in glob.glob('$path/jep.$sharedObject'):
+         |	shutil.copy(f, dest_dir)
+    """.stripMargin
+
+    lazy val result = IO.withTemporaryFile("pyCode2", "py") { file =>
+      IO.write(file, code.getBytes)
+      (commandLinePython + " " + file.getAbsolutePath) !
+    }
+    if(result>0) throw new Exception(" Error running code "+code)
     report
 }
