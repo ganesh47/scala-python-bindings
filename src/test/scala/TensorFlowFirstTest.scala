@@ -18,7 +18,6 @@ class TensorFlowFirstTest extends FlatSpec with Matchers {
     implicit val jepa = new Jep()
     // prep for tensorflow
     val sys = py.module("sys")
-    println(sys.env)
     sys.argv = Array("jep")
     sys.path.insert(0, "./src/main/python")
     println(sys.version)
