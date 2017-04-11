@@ -1,3 +1,5 @@
+import java.io.File
+
 import jep.Jep
 import org.scalatest.{FlatSpec, Matchers}
 import py.py
@@ -10,7 +12,8 @@ import scalapy.tensorflow.TensorFlow
 class TensorFlowFirstTest extends FlatSpec with Matchers {
 
   "201 step Linear Regression" should " optimially run with tensors  " in {
-    implicit val jep = new Jep()
+    unsafe.Utils.unsafeAddDir(new File("./jep_deps/lib/").getAbsolutePath)
+    implicit val jepa = new Jep()
     // prep for tensorflow
     val sys = py.module("sys")
     println(sys.path)
@@ -41,7 +44,7 @@ class TensorFlowFirstTest extends FlatSpec with Matchers {
       }
     }
 
-
+    jepa.close()
   }
 
 }

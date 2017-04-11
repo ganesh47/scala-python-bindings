@@ -1,3 +1,5 @@
+import java.io.File
+
 import jep.Jep
 import org.scalatest.{FlatSpec, Matchers}
 import py.py
@@ -10,6 +12,7 @@ import scalapy.pandas.Series.{A_Ravel_Order, F_Ravel_Order, K_Ravel_Order, highe
 class PandasSeriesFacadeTest extends FlatSpec with Matchers{
 
   "Test Series Facade" should "Type Check And Execute" in{
+    unsafe.Utils.unsafeAddDir(new File("./jep_deps/lib/").getAbsolutePath)
 
     import py._
     import scalapy.pandas.Series.seqReader
@@ -53,5 +56,6 @@ class PandasSeriesFacadeTest extends FlatSpec with Matchers{
     assert(series.quantile(interpolation = nearest).toString().contains("2"))
     assert(series.quantile(interpolation = lower).toString().contains("2"))
 
+    jep.close()
   }
 }
