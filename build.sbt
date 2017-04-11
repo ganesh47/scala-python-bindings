@@ -52,13 +52,13 @@ update <<= update map {
         req => ("pip3 install " + req).!
       }
       println((commandLinePython + " --version").!)
-      val pyCode = "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+      val pyCode = "import os,pandas ; print(os.path.abspath(pandas.__file__))"
 
       lazy val otp = IO.withTemporaryFile("pyCode", "py") { file =>
         IO.write(file, pyCode.getBytes)
         (commandLinePython + " " + file.getAbsolutePath) !!
       }
-      lazy val path = otp.trim().replace('\\', '/').replaceAll("\n", "") + "/jep"
+      lazy val path = otp.trim().replace('\\', '/').replaceAll("\n", "").replaceAll(".pandas.__init__.py","") + "/jep"
       val basePath = new File(".").getAbsolutePath
       s"mkdir ${basePath}/$jep_deps".replace('/', '\\').!
       s"mkdir ${basePath}/$jep_deps/lib".replace('/', '\\').!
