@@ -10,7 +10,7 @@ language: scala
 
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y python3-pip,python3
+  - sudo apt-get install -y python3-pip
 
 script:
   - apt-get install
