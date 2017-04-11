@@ -59,9 +59,6 @@ update <<= update map {
         (commandLinePython + " " + file.getAbsolutePath) !!
       }
       lazy val path = otp.trim().replace('\\', '/').replaceAll("\n", "").replaceAll(".pandas.__init__.py","") + "/jep"
-      s"mkdir $jep_deps".replace('/', '\\').!
-      s"mkdir $jep_deps\\lib".replace('/', '\\').!
-
       val code =
         s"""
            |import shutil, glob
