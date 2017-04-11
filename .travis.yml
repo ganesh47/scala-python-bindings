@@ -17,6 +17,8 @@ before_install:
 script:
   - sudo LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpython3.4m.so LD_LIBRARY_PATH="/usr/lib:/usr/local/lib/python3.4/dist-packages/:/usr/local/lib/python3.4/dist-packages/jep"  sbt ++$TRAVIS_SCALA_VERSION test
   - ls /usr/local/lib/python3.4/dist-packages/jep/*
+  - cat /usr/local/bin/jep
+  - ldd -r /home/travis/build/ganesh47/scalapy-tensorflow/jep_deps/lib/libjep.so
 
   # Trick to avoid unnecessary cache updates
   #- find $HOME/.sbt -name "*.lock" | xargs rm
