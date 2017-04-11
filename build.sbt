@@ -40,7 +40,9 @@ fork in runMain := true
 fork in run in Test := true
 
 javaOptions in run in Test += "-Djava.library.path=./jep_deps/lib/"
+javaOptions in test in Test += "-Djava.library.path=./jep_deps/lib/"
 javaOptions in runMain += "-Djava.library.path=./jep_deps/lib/"
+javaOptions in console += "-Djava.library.path=./jep_deps/lib/"
 
 update <<= update map {
   report =>
