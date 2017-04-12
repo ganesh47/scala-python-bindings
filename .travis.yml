@@ -13,7 +13,7 @@ before_install:
   - sudo apt-get install -y python3-pip
 
 script:
-  - sudo LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpython3.4m.so LD_LIBRARY_PATH="/usr/lib:/usr/local/lib/python3.4/dist-packages/:/usr/local/lib/python3.4/dist-packages/jep"  sbt ++$TRAVIS_SCALA_VERSION test
+  - sudo LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpython3.4m.so LD_LIBRARY_PATH="/usr/lib:/usr/local/lib/python3.4/dist-packages/:/usr/local/lib/python3.4/dist-packages/jep"  sbt ++$TRAVIS_SCALA_VERSION clean coverage test coverageReport
 
   # Trick to avoid unnecessary cache updates
   #- find $HOME/.sbt -name "*.lock" | xargs rm
@@ -28,3 +28,6 @@ jdk:
 notifications:
   email:
     - ganesh@thedatateam.in
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
