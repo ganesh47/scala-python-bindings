@@ -2,9 +2,9 @@ import java.nio.file.Files
 
 import sbt.Keys.javaOptions
 
-organization := "me.shadaj"
+organization := "scala.py"
 
-name := "scalapy-tensorflow"
+name := "scala.py-interop"
 
 version := "0.1.0-SNAPSHOT"
 
