@@ -16,3 +16,5 @@ Examples are in tests src/tests/scala/
 [ WIP ] Add pandas facade
 
 [![Build Status](https://travis-ci.org/ganesh47/scalapy-tensorflow.svg?branch=master)](https://travis-ci.org/ganesh47/scalapy-tensorflow)
+
+[![codecov](https://codecov.io/gh/ganesh47/scalapy-tensorflow/branch/master/graph/badge.svg)](https://codecov.io/gh/ganesh47/scalapy-tensorflow)
