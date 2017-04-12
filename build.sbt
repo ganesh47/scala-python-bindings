@@ -30,7 +30,7 @@ lazy val numpy = project in file("scala-numpy") dependsOn scalapy settings(scala
 lazy val root = project in file(".") dependsOn(numpy, scalapy) settings(scalaVersion := "2.12.1", libraryDependencies += scalaReflect.value)
 
 val tensorflow = if(os.startsWith("win")) "tensorflow" else "--upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.0.1-cp34-cp34m-linux_x86_64.whl"
-lazy val requirements = Seq("numpy","jep", "pandas",tensorflow)
+lazy val requirements = Seq("numpy==1.12.1","jep", "pandas==0.19.2",tensorflow)
 
 lazy val commandLinePython = if (os.startsWith("win")) "python" else "python3"
 
