@@ -1,6 +1,5 @@
 # scalapy
-Static facades for using 
-TensorFlow 
+Static facades for using various commoon python libs with sbt support for build management
 
 Numpy
 
