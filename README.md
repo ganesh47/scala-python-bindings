@@ -16,4 +16,4 @@ Examples are in tests src/tests/scala/
 
 [![Build Status](https://travis-ci.org/ganesh47/scala-python-bindings.svg?branch=master)](https://travis-ci.org/ganesh47/scala-python-bindings)
 
-[![Build Status](https://travis-ci.org/ganesh47/scala-python-bindings.svg?branch=master)](https://travis-ci.org/ganesh47/scala-python-bindings)
+[![codecov](https://codecov.io/gh/ganesh47/scala-python-bindings/branch/master/graph/badge.svg)](https://codecov.io/gh/ganesh47/scala-python-bindings)
