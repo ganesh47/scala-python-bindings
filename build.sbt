@@ -15,13 +15,23 @@ lazy val scalaReflect = Def.setting {
   "org.scala-lang" % "scala-reflect" % scalaVersion.value
 }
 
+lazy val typesafeLogger = Def.setting {
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
+}
+
+lazy val sl4jlogback = Def.setting {
+  "ch.qos.logback" % "logback-classic" % "1.1.7"
+}
+
+
 lazy val arch = if (System.getProperty("os.arch").equals("amd64")) "x64" else "x86"
 
 lazy val os = System.getProperty("os.name").split(" ")(0).toLowerCase
 
 lazy val jep_deps = "jep_deps"
 
-lazy val jep = project in file(jep_deps) settings(scalaVersion := "2.12.1", libraryDependencies += scalaReflect.value)
+lazy val jep = project in file(jep_deps) settings(scalaVersion := "2.12.1",
+  libraryDependencies ++= Seq(scalaReflect.value, typesafeLogger.value, sl4jlogback.value))
 
 lazy val scalapy = project in file("scalapy") dependsOn jep settings(scalaVersion := "2.12.1", libraryDependencies += scalaReflect.value)
 
@@ -29,8 +39,8 @@ lazy val numpy = project in file("scala-numpy") dependsOn scalapy settings(scala
 
 lazy val root = project in file(".") dependsOn(numpy, scalapy) settings(scalaVersion := "2.12.1", libraryDependencies += scalaReflect.value)
 
-val tensorflow = if(os.startsWith("win")) "tensorflow" else "--upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.0.1-cp34-cp34m-linux_x86_64.whl"
-lazy val requirements = Seq("numpy==1.12.1","jep", "pandas==0.19.2",tensorflow)
+val tensorflow = if (os.startsWith("win")) "tensorflow" else "--upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.0.1-cp34-cp34m-linux_x86_64.whl"
+lazy val requirements = Seq("numpy==1.12.1", "jep", "pandas==0.19.2", tensorflow)
 
 lazy val commandLinePython = if (os.startsWith("win")) "python" else "python3"
 
@@ -55,7 +65,7 @@ update <<= update map {
         IO.write(file, pyCode.getBytes)
         (commandLinePython + " " + file.getAbsolutePath) !!
       }
-      lazy val path = new File(otp.trim().replace('\\', '/').replaceAll("\n", "")).getParentFile.getParentFile.getAbsolutePath.replace('\\', '/').trim+"/jep"
+      lazy val path = new File(otp.trim().replace('\\', '/').replaceAll("\n", "")).getParentFile.getParentFile.getAbsolutePath.replace('\\', '/').trim + "/jep"
       val code =
         s"""
            |import shutil, glob

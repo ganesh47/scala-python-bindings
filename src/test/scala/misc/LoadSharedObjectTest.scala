@@ -1,3 +1,5 @@
+package misc
+
 import java.io.File
 
 import org.scalatest.{FlatSpec, Matchers}

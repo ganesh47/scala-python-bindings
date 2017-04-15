@@ -8,6 +8,8 @@ class NumPy(o: Object)(implicit jep: Jep) extends ObjectFascade(o) {
     dynamic.asarray(s).as[NDArray[T]]
   }
 
+  def array[T](s:Seq[T])(implicit writer: ObjectWriter[T], reader: ObjectReader[T]): NDArray[T] = native
+
   def resize[T](s: Seq[T], shape: (Int, Int))(implicit writer: ObjectWriter[T], reader: ObjectReader[T]): NDArray[NDArray[Double]] = {
     dynamic.resize(s, shape).as[NDArray[NDArray[Double]]]
   }

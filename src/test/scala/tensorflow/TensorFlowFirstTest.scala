@@ -1,10 +1,10 @@
-import java.io.File
+package tensorflow
 
 import jep.Jep
 import numpy.NumPy
 import org.scalatest.{FlatSpec, Matchers}
 import py.py
-import EnvIndependentUtils._
+import utils.EnvIndependentUtils._
 import scalapy.tensorflow.TensorFlow
 
 /**

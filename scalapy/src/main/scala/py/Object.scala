@@ -1,5 +1,7 @@
 package py
 
+import com.typesafe.scalalogging.Logger
+
 import scala.collection.mutable
 import scala.language.dynamics
 import jep.Jep
@@ -52,7 +54,7 @@ object Object {
   def apply(stringToEval: String)(implicit jep: Jep): Object = {
     val variableName = nextCounter
     nextCounter += 1
-
+    Logger[Object].trace(s"evaluating::  spy_o_$variableName = $stringToEval")
     jep.eval(s"spy_o_$variableName = $stringToEval")
 
     val ret = new DynamicObject(variableName)
