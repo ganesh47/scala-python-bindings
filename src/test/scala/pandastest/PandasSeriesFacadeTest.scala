@@ -1,4 +1,4 @@
-package pandas
+package pandastest
 
 import jep.Jep
 import org.scalatest.{FlatSpec, Matchers}

@@ -1,12 +1,11 @@
-package numpy
+package numpytest
+
 import java.lang.management.ManagementFactory
 
-import py.py
-import jep.Jep
-import NDArray._
-import com.typesafe.scalalogging.Logger
-import utils.EnvIndependentUtils._
+import numpy.NumPy
 import org.scalatest.{FlatSpec, Matchers}
+import py.py
+import utils.EnvIndependentUtils._
 /**
   * Created by Ganesh on 4/14/2017.
   */
